@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Avenue</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <nav id="nav">
+    <button class="nav-btn active" data-panel="tabs" title="Tabs" aria-label="Tabs panel">
+      <svg viewBox="0 0 20 20"><rect x="3" y="4" width="14" height="2.5" rx="1.25"/><rect x="3" y="8.75" width="14" height="2.5" rx="1.25"/><rect x="3" y="13.5" width="14" height="2.5" rx="1.25"/></svg>
+      <span class="nav-count" id="count-tabs"></span>
+    </button>
+    <button class="nav-btn" data-panel="bookmarks" title="Bookmarks" aria-label="Bookmarks panel">
+      <svg viewBox="0 0 20 20"><path d="M5 3h10a1 1 0 0 1 1 1v13l-6-3-6 3V4a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      <span class="nav-count" id="count-bookmarks"></span>
+    </button>
+    <button class="nav-btn" data-panel="history" title="Library" aria-label="Library panel">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="7.5"/><polyline points="10,6 10,10 13,12.5"/></svg>
+      <span class="nav-count" id="count-history"></span>
+    </button>
+    <div class="nav-spacer"></div>
+    <button class="nav-btn" id="btn-new-tab-nav" title="New Tab" aria-label="Open new tab">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="10" y1="4" x2="10" y2="16"/><line x1="4" y1="10" x2="16" y2="10"/></svg>
+    </button>
+    <button class="nav-btn" id="btn-settings" title="Settings" aria-label="Open panel settings">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="2.5"/><path d="M10 2.5v1.7M10 15.8v1.7M2.5 10h1.7M15.8 10h1.7M4.6 4.6l1.2 1.2M14.2 14.2l1.2 1.2M4.6 15.4l1.2-1.2M14.2 5.8l1.2-1.2"/></svg>
+    </button>
+  </nav>
+
+  <div id="content">
+    <header id="search-row">
+      <div id="search-wrap">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="4.5"/><line x1="10.5" y1="10.5" x2="14" y2="14"/></svg>
+        <input id="search-input" type="text" placeholder="Search tabs" autocomplete="off" spellcheck="false" />
+        <button id="search-clear" title="Clear">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="2" y1="2" x2="10" y2="10"/><line x1="10" y1="2" x2="2" y2="10"/></svg>
+        </button>
+      </div>
+
+      <div id="tree-controls" class="tab-controls">
+        <button class="ctrl-btn" id="btn-collapse-all" title="Collapse all trees">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,6 8,10 13,6"/></svg>
+        </button>
+        <button class="ctrl-btn" id="btn-expand-all" title="Expand all trees">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,10 8,6 13,10"/></svg>
+        </button>
+        <button class="ctrl-btn" id="btn-restore-last" title="Restore last closed">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a5 5 0 1 0 1.6-3.7"/><polyline points="1.8,2.8 4.8,2.8 4.8,5.8"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div id="panels">
+      <section id="panel-tabs" class="panel active">
+        <div id="tabs-summary" class="summary-bar"></div>
+        <div id="favorites-wrap" class="section-wrap hidden">
+          <div class="section-head section-head-actions">
+            <span>Favorites</span>
+            <div class="section-actions">
+              <button id="btn-favorite-current" class="ghost-btn ghost-btn-sm">Add current</button>
+            </div>
+          </div>
+          <div id="favorites-list"></div>
+        </div>
+        <div id="quick-actions-wrap" class="section-wrap hidden">
+          <div class="section-head section-head-actions">
+            <div class="section-actions">
+              <button id="btn-save-smart-folder" class="ghost-btn ghost-btn-sm hidden">Save live folder</button>
+              <button id="btn-undo" class="ghost-btn ghost-btn-sm hidden" disabled>Undo</button>
+            </div>
+          </div>
+        </div>
+        <div id="selection-bar" class="action-bar" aria-live="polite" aria-hidden="true">
+          <div class="action-copy">
+            <span id="selection-title">Selection</span>
+            <span id="selection-meta"></span>
+          </div>
+          <div class="action-buttons">
+            <button class="action-btn" id="btn-selection-folder" title="Create folder">Folder</button>
+            <button class="action-btn" id="btn-selection-unfolder" title="Remove from folder">Remove</button>
+            <button class="action-btn" id="btn-selection-group" title="Group tabs">Group</button>
+            <button class="action-btn" id="btn-selection-ungroup" title="Ungroup tabs">Ungroup</button>
+            <button class="action-btn" id="btn-selection-pin" title="Pin or unpin tabs">Pin</button>
+            <button class="action-btn" id="btn-selection-mute" title="Mute or unmute tabs">Mute</button>
+            <button class="action-btn" id="btn-selection-bookmark" title="Bookmark tabs">Bookmark</button>
+            <button class="action-btn" id="btn-selection-window" title="Move tabs to a new window">New window</button>
+            <button class="action-btn danger" id="btn-selection-close" title="Close selected tabs">Close</button>
+          </div>
+        </div>
+        <div id="pins-wrap" class="section-wrap hidden">
+          <div id="pins-head" class="section-head pinned-head" role="button" tabindex="0">
+            <div class="section-head-copy">
+              <button id="btn-toggle-pins" class="section-toggle" title="Collapse pinned tabs" aria-label="Collapse pinned tabs" aria-expanded="true">
+                <svg viewBox="0 0 9 9"><polyline points="1.5,2.5 4.5,6 7.5,2.5"/></svg>
+              </button>
+              <span>Pinned</span>
+            </div>
+            <span id="pins-count"></span>
+          </div>
+          <div id="pins-list"></div>
+        </div>
+        <div id="tabs-list"></div>
+      </section>
+
+      <section id="panel-bookmarks" class="panel">
+        <div id="bookmarks-header" class="panel-toolbar">
+          <div class="panel-toolbar-copy">
+            <span class="panel-title">Bookmarks</span>
+            <span id="bookmarks-meta" class="panel-meta"></span>
+          </div>
+          <div class="panel-toolbar-actions">
+            <button id="btn-bookmarks-up" class="ghost-btn ghost-btn-sm">Up</button>
+            <button id="btn-bookmarks-home" class="ghost-btn ghost-btn-sm">Root</button>
+            <button id="btn-bookmark-current" class="ghost-btn ghost-btn-sm">Bookmark tab</button>
+          </div>
+        </div>
+        <div id="bookmarks-crumb"></div>
+        <div id="bookmarks-list"></div>
+      </section>
+
+      <section id="panel-history" class="panel">
+        <div id="history-meta-bar" class="panel-toolbar">
+          <div class="panel-toolbar-copy">
+            <span class="panel-title">Library</span>
+            <span id="history-meta" class="panel-meta"></span>
+          </div>
+        </div>
+        <div id="history-header">
+          <select id="history-range">
+            <option value="3600000">Last hour</option>
+            <option value="86400000" selected>Last 24 hours</option>
+            <option value="604800000">Last 7 days</option>
+            <option value="2592000000">Last 30 days</option>
+            <option value="0">All time</option>
+          </select>
+          <button id="btn-refresh-closed" class="ghost-btn">Refresh</button>
+        </div>
+
+        <div id="snapshots-wrap" class="section-wrap">
+          <div class="section-head section-head-actions">
+            <span>Snapshots</span>
+            <div class="section-actions">
+              <button id="btn-save-snapshot" class="ghost-btn ghost-btn-sm">Save current</button>
+              <span id="snapshots-count"></span>
+            </div>
+          </div>
+          <div id="snapshots-list"></div>
+        </div>
+
+        <div id="recently-closed-wrap" class="section-wrap">
+          <div class="section-head">
+            <span>Closed</span>
+            <span id="closed-count"></span>
+          </div>
+          <div id="recently-closed-list"></div>
+        </div>
+
+        <div id="archived-wrap" class="section-wrap">
+          <div class="section-head">
+            <span>Archive</span>
+            <span id="archived-count"></span>
+          </div>
+          <div id="archived-list"></div>
+        </div>
+
+        <div id="history-list"></div>
+      </section>
+    </div>
+  </div>
+
+  <aside id="settings-panel" class="hidden" aria-hidden="true" inert>
+    <div id="settings-header">
+      <div>
+        <span>Avenue Settings</span>
+        <span class="settings-subtitle">Tune density, appearance, and data handling.</span>
+      </div>
+      <button id="btn-settings-close">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="2" y1="2" x2="12" y2="12"/><line x1="12" y1="2" x2="2" y2="12"/></svg>
+      </button>
+    </div>
+
+    <section class="settings-section">
+      <h2>Appearance</h2>
+      <label class="setting-row">
+        <span class="setting-copy">
+          <span class="setting-label">Theme</span>
+          <span class="setting-help">Use Chrome/system colors by default.</span>
+        </span>
+        <select id="setting-theme">
+          <option value="system" selected>System</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </label>
+
+      <label class="setting-row">
+        <span class="setting-copy">
+          <span class="setting-label">Accent</span>
+          <span class="setting-help">Used for active tabs, selections, and focus rings.</span>
+        </span>
+        <div id="accent-swatches">
+          <button class="swatch active" data-color="#6678f0" style="--c:#6678f0"></button>
+          <button class="swatch" data-color="#61c3ff" style="--c:#61c3ff"></button>
+          <button class="swatch" data-color="#38c172" style="--c:#38c172"></button>
+          <button class="swatch" data-color="#f59f40" style="--c:#f59f40"></button>
+          <button class="swatch" data-color="#ff6b6b" style="--c:#ff6b6b"></button>
+          <button class="swatch" data-color="#d977ff" style="--c:#d977ff"></button>
+        </div>
+      </label>
+
+      <label class="setting-stack">
+        <span class="setting-copy">
+          <span class="setting-label">Custom CSS</span>
+          <span class="setting-help">Optional local overrides for advanced tweaks.</span>
+        </span>
+        <textarea id="setting-custom-css" placeholder="/* Optional overrides */"></textarea>
+      </label>
+    </section>
+
+    <section class="settings-section">
+      <h2>Layout</h2>
+      <label class="setting-row">
+        <span class="setting-copy">
+          <span class="setting-label">Tree indent</span>
+          <span class="setting-help">Controls how much nested tabs step inward.</span>
+        </span>
+        <div class="range-wrap">
+          <input type="range" id="setting-indent" min="10" max="30" step="2" value="14" />
+          <span id="indent-val">14px</span>
+        </div>
+      </label>
+
+      <label class="setting-row toggle-row">
+        <span class="setting-copy">
+          <span class="setting-label">Compact rows</span>
+          <span class="setting-help">Keep the Arc-like tighter tab density.</span>
+        </span>
+        <input type="checkbox" id="setting-compact" class="toggle" checked />
+        <span class="toggle-ui" aria-hidden="true"></span>
+      </label>
+
+      <label class="setting-row toggle-row">
+        <span class="setting-copy">
+          <span class="setting-label">Show favicons</span>
+          <span class="setting-help">Display each tab’s site icon.</span>
+        </span>
+        <input type="checkbox" id="setting-favicons" class="toggle" checked />
+        <span class="toggle-ui" aria-hidden="true"></span>
+      </label>
+
+      <label class="setting-row toggle-row">
+        <span class="setting-copy">
+          <span class="setting-label">Show tree guides</span>
+          <span class="setting-help">Draw subtle rails for nested tabs and groups.</span>
+        </span>
+        <input type="checkbox" id="setting-tree-lines" class="toggle" checked />
+        <span class="toggle-ui" aria-hidden="true"></span>
+      </label>
+
+      <label class="setting-row toggle-row">
+        <span class="setting-copy">
+          <span class="setting-label">Show group headers</span>
+          <span class="setting-help">Keep named tab groups visible in the list.</span>
+        </span>
+        <input type="checkbox" id="setting-groups" class="toggle" checked />
+        <span class="toggle-ui" aria-hidden="true"></span>
+      </label>
+
+      <label class="setting-row toggle-row">
+        <span class="setting-copy">
+          <span class="setting-label">Show URL metadata</span>
+          <span class="setting-help">Show smaller secondary domain text.</span>
+        </span>
+        <input type="checkbox" id="setting-tab-meta" class="toggle" checked />
+        <span class="toggle-ui" aria-hidden="true"></span>
+      </label>
+    </section>
+
+    <section class="settings-section">
+      <h2>Backup</h2>
+      <div class="setting-stack">
+        <span class="setting-copy">
+          <span class="setting-label">Import & export</span>
+          <span class="setting-help">Includes folders, favorites, archive data, and panel settings.</span>
+        </span>
+        <div class="setting-actions">
+          <button id="btn-export-data" class="ghost-btn">Export data</button>
+          <button id="btn-import-data" class="ghost-btn">Import data</button>
+        </div>
+        <input id="import-file" class="hidden" type="file" accept="application/json" />
+      </div>
+    </section>
+  </aside>
+
+  <div id="ctx-menu" class="hidden">
+    <ul id="ctx-list"></ul>
+  </div>
+
+  <div id="toast" class="hidden" aria-live="polite"></div>
+
+  <script src="index.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "avenue-sidebar",
+  "version": "1.0.3",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test manifest.test.mjs sidepanel/state-helpers.test.mjs sidepanel/settings-panel.test.mjs sidepanel/tab-close-button.test.mjs sidepanel/favorites-render.test.mjs background/command-helpers.test.mjs background/message-handler.test.mjs scripts/package-extension.test.mjs scripts/smoke-extension.test.mjs",
+    "check": "node --check background.js && node --check background/command-helpers.js && node --check background/storage-helpers.js && node --check sidepanel/index.js && node --check sidepanel/drag-helpers.js && node --check sidepanel/settings-panel.js && node --check sidepanel/settings-panel.test.mjs && node --check sidepanel/dom-utils.js && node --check sidepanel/icons.js && node --check sidepanel/state-helpers.js && node --check scripts/smoke-extension.mjs && npm test",
+    "smoke": "node scripts/smoke-extension.mjs",
+    "package": "node scripts/package-extension.mjs"
+  },
+  "devDependencies": {
+    "archiver": "^8.0.0",
+    "playwright": "^1.60.0"
+  }
+}
