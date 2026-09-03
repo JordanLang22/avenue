@@ -1,6 +1,6 @@
 # Avenue
 
-Avenue is a local Chrome side-panel extension for vertical tab management. It is Arc-inspired, but it stays inside Chrome extension platform limits.
+Avenue is a local Chrome side-panel extension for vertical tab management. It stays inside Chrome extension platform limits.
 
 ## Local Source
 
@@ -49,7 +49,7 @@ See `docs/PLATFORM_LIMITS.md`.
 
 The important limits are:
 
-- Avenue cannot implement true Arc-style Peek for arbitrary Shift-clicked page links.
+- Avenue cannot implement arbitrary page-link previews for Shift-clicked page links.
 - Avenue cannot implement Firefox-style container tabs in Chrome.
 - Avenue cannot read exact Chrome toolbar theme colors.
 - Avenue cannot fully restyle Chrome's toolbar or tab strip.

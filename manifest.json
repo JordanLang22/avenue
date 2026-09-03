@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Avenue",
   "version": "1.0.3",
-  "description": "Arc-inspired vertical tab sidebar with folders, groups, archive, bookmarks, and history.",
+  "description": "Vertical tab sidebar with folders, groups, archive, bookmarks, and history.",
   "permissions": [
     "tabs",
     "tabGroups",
