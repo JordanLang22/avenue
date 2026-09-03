@@ -2,6 +2,21 @@
 
 Avenue is a local Chrome side-panel extension for vertical tab management. It stays inside Chrome extension platform limits.
 
+## Screenshot
+
+![Avenue vertical tab sidebar](assets/avenue-screenshot.png)
+
+## Features
+
+- Organize tabs in a vertical tree with pinned tabs, folders, and Chrome tab groups.
+- Drag tabs and groups, create child tabs, and convert folders to tab groups or back.
+- Search tabs and use multi-selection for batch actions.
+- Rename, duplicate, mute, reload, discard, archive, bookmark, or move tabs to a new window.
+- Recover closed or archived tabs and undo destructive actions.
+- Browse favorites, bookmarks, history, recently closed tabs, and saved snapshots.
+- Customize themes, accents, custom CSS, indentation, compact rows, favicons, guides, group headers, and URL metadata.
+- Import and export sidebar data, with virtualization to keep large tab sessions responsive.
+
 ## Local Source
 
 Load this checkout in Chrome:
